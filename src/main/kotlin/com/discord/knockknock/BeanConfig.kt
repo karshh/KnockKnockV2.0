@@ -8,13 +8,12 @@ import discord4j.core.GatewayDiscordClient
 import discord4j.core.event.domain.Event
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import java.lang.Exception
 
 
 @Configuration
-class BeanConfig() {
+class BeanConfig {
 
     @Value("\${discord.bot.token}")
     private lateinit var token: String
@@ -22,7 +21,7 @@ class BeanConfig() {
     @Bean
     fun <T : Event> discordClient(eventListeners: List<EventListener<T>>): GatewayDiscordClient {
         val client = DiscordClientBuilder.create(token).build().login().block()
-                 ?: throw Exception("Could not instantiate discord bot.")
+                ?: throw Exception("Could not instantiate discord bot.")
 
         eventListeners.forEach {
             client.on(it.eventType)
@@ -40,8 +39,5 @@ class BeanConfig() {
                 JokeCommand()
         )
     }
-
-
-
 
 }

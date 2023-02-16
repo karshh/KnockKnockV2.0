@@ -29,24 +29,13 @@ class CommandEventListener @Autowired constructor(private val commandList: List<
         return event.message.channel.flatMap { channel -> channel.createMessage(response) }.then()
     }
 
-    private fun respondToInstructions(arguments: List<String>): EmbedCreateSpec {
-        if (arguments.isEmpty()) {
-            return getErrorMessage("Empty Command")
-        }
-
-        for (command in commandList) {
-            if (command.validate(arguments)) {
-                return command.evaluate(arguments)
-            }
-        }
-
-        return getErrorMessage("Invalid command.")
-    }
+    private fun respondToInstructions(arguments: List<String>) = commandList.firstOrNull { it.validate(arguments) }?.evaluate(arguments)
+            ?: getErrorMessage("Invalid command.")
 
     private fun getErrorMessage(description: String) = EmbedCreateSpec.builder()
-                .color(Color.RED)
-                .description(description)
-                .build()
+            .color(Color.RED)
+            .description(description)
+            .build()
 
     override val eventType: Class<MessageCreateEvent> = MessageCreateEvent::class.java
 

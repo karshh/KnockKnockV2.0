@@ -2,8 +2,10 @@ package com.discord.knockknock
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
+@EnableScheduling
 class KnockknockApplication
 
 fun main(args: Array<String>) {
