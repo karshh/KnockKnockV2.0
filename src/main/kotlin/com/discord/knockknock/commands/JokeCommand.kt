@@ -3,9 +3,11 @@ package com.discord.knockknock.commands
 import com.discord.knockknock.commands.utils.Command
 import com.discord.knockknock.commands.utils.Joke
 import discord4j.core.spec.EmbedCreateSpec
+import org.springframework.stereotype.Component
 
 
-internal class JokeCommand: Command {
+@Component
+class JokeCommand: Command {
 
         private val JOKES = listOf(
                 Joke(name="Dozen", value="anybody want to let me in?"),

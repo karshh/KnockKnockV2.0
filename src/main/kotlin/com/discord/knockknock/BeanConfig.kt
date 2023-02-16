@@ -1,5 +1,7 @@
 package com.discord.knockknock
 
+import com.discord.knockknock.commands.JokeCommand
+import com.discord.knockknock.commands.utils.Command
 import com.discord.knockknock.services.utils.EventListener
 import discord4j.core.DiscordClientBuilder
 import discord4j.core.GatewayDiscordClient
@@ -30,6 +32,13 @@ class BeanConfig() {
         }
 
         return client
+    }
+
+    @Bean
+    fun commandList(): List<Command> {
+        return listOf(
+                JokeCommand()
+        )
     }
 
 

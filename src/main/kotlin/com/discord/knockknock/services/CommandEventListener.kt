@@ -2,18 +2,16 @@ package com.discord.knockknock.services
 
 import com.discord.knockknock.services.utils.EventListener
 import com.discord.knockknock.commands.JokeCommand
+import com.discord.knockknock.commands.utils.Command
 import discord4j.core.event.domain.message.MessageCreateEvent
 import discord4j.core.spec.EmbedCreateSpec
 import discord4j.rest.util.Color
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
 
 @Component
-class BasicCommandComponent: EventListener<MessageCreateEvent> {
-
-    private val COMMAND_LIST = listOf(
-            JokeCommand()
-    )
+class CommandEventListener @Autowired constructor(private val commandList: List<Command>) : EventListener<MessageCreateEvent> {
 
     override fun execute(event: MessageCreateEvent): Mono<Void> {
 
@@ -36,7 +34,7 @@ class BasicCommandComponent: EventListener<MessageCreateEvent> {
             return getErrorMessage("Empty Command")
         }
 
-        for (command in COMMAND_LIST) {
+        for (command in commandList) {
             if (command.validate(arguments)) {
                 return command.evaluate(arguments)
             }
