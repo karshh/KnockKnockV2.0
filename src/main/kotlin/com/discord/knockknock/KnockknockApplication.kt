@@ -1,7 +1,5 @@
 package com.discord.knockknock
 
-import eventlisteners.CommandEventListener
-import net.dv8tion.jda.internal.JDAImpl
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -11,5 +9,3 @@ class KnockknockApplication
 fun main(args: Array<String>) {
     runApplication<KnockknockApplication>(*args)
 }
-
-

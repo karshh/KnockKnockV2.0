@@ -1,17 +1,12 @@
-package commands
+package com.discord.knockknock.commands
 
-import commands.utils.Command
-import commands.utils.CommandFunction
-import commands.utils.Joke
-import net.dv8tion.jda.api.utils.messages.MessageCreateData
-import utils.MessageCreateDataBuilder
-import java.awt.Color
-
+import com.discord.knockknock.commands.utils.Command
+import com.discord.knockknock.commands.utils.Joke
+import discord4j.core.spec.EmbedCreateSpec
 
 
 internal class JokeCommand: Command {
 
-    companion object: CommandFunction {
         private val JOKES = listOf(
                 Joke(name="Dozen", value="anybody want to let me in?"),
                 Joke(name="Avenue", value="knocked on this door before?"),
@@ -46,7 +41,7 @@ internal class JokeCommand: Command {
             return arguments == listOf("joke")
         }
 
-        override fun evaluate(arguments: List<String>): MessageCreateData {
+        override fun evaluate(arguments: List<String>): EmbedCreateSpec {
             val joke = JOKES.random().let {
                 listOf(
                         "Knock Knock.",
@@ -57,10 +52,8 @@ internal class JokeCommand: Command {
                 ).joinToString("\n")
             }
 
-            return MessageCreateDataBuilder()
-                    .setEmbedColor(Color.GREEN)
-                    .setEmbedDescription(joke)
-                    .build()
+            return EmbedCreateSpec.create()
+                    .withColor(discord4j.rest.util.Color.GREEN)
+                    .withDescription(joke)
         }
-    }
 }

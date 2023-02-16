@@ -21,7 +21,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-	implementation 'net.dv8tion:JDA:5.0.0-beta.3'
+	implementation "com.discord4j:discord4j-core:3.2.3"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
