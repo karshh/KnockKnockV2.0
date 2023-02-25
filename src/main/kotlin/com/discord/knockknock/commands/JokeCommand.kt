@@ -3,6 +3,7 @@ package com.discord.knockknock.commands
 import com.discord.knockknock.commands.utils.Command
 import com.discord.knockknock.commands.utils.Joke
 import discord4j.core.spec.EmbedCreateSpec
+import reactor.core.publisher.Mono
 
 
 class JokeCommand: Command {
@@ -41,19 +42,21 @@ class JokeCommand: Command {
             return arguments == listOf("joke")
         }
 
-        override fun evaluate(arguments: List<String>): EmbedCreateSpec {
-            val joke = JOKES.random().let {
-                listOf(
-                        "Knock Knock.",
-                        "Who's there?",
-                        it.name + ".",
-                        it.name + " who?",
-                        it.value
-                ).joinToString("\n")
-            }
-
-            return EmbedCreateSpec.create()
-                    .withColor(discord4j.rest.util.Color.GREEN)
-                    .withDescription(joke)
+        override fun evaluate(arguments: List<String>): Mono<EmbedCreateSpec> {
+            return Mono.just(
+                EmbedCreateSpec.create()
+                        .withColor(discord4j.rest.util.Color.GREEN)
+                        .withDescription(getRandomJoke())
+            )
         }
+
+    private fun getRandomJoke() = JOKES.random().let {
+        listOf(
+                "Knock Knock.",
+                "Who's there?",
+                it.name + ".",
+                it.name + " who?",
+                it.value
+        ).joinToString("\n")
+    }
 }

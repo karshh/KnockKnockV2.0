@@ -1,4 +1,4 @@
-package com.discord.knockknock.services.utils
+package com.discord.knockknock.eventlisteners
 
 import discord4j.core.event.domain.Event
 import org.slf4j.Logger
