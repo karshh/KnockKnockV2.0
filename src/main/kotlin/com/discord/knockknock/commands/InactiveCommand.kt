@@ -46,6 +46,7 @@ class InactiveCommand(
                     .description("Could not retrieve data for this faction.")
                     .build()
         }
+        val fallenSet = mutableMapOf<String, FactionMember>()
         val federalSet = mutableMapOf<String, FactionMember>()
         val inactiveSet = mutableMapOf<String, FactionMember>()
 
@@ -53,13 +54,15 @@ class InactiveCommand(
             if (member.value.status.state == "Federal") {
                 federalSet[member.key] = member.value
             }
-
+            else if (member.value.status.state == "Fallen") {
+                fallenSet[member.key] = member.value
+            }
             else if (isInactive(member)) {
                 inactiveSet[member.key] = member.value
             }
         }
 
-        if (federalSet.isEmpty() && inactiveSet.isEmpty()) {
+        if (federalSet.isEmpty() && inactiveSet.isEmpty() && fallenSet.isEmpty()) {
             return EmbedCreateSpec.builder()
                     .color(Color.GREEN)
                     .title("")
@@ -70,6 +73,14 @@ class InactiveCommand(
                 .color(Color.ORANGE)
                 .title("${it.name}")
                 .url("https://www.torn.com/factions.php?step=profile&ID=${it.id}")
+
+        if (fallenSet.isNotEmpty()) {
+            builder.addField(
+                    "In Heaven (RIP)",
+                    fallenSet.map { entry -> "[`${entry.value.name}[${entry.key}]`](${getProfileUrl(entry.key)})" }.joinToString("\n"),
+                    false
+            )
+        }
 
         if (federalSet.isNotEmpty()) {
             builder.addField(

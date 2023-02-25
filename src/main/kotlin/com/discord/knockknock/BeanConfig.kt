@@ -1,10 +1,7 @@
 package com.discord.knockknock
 
-import com.discord.knockknock.commands.HelpCommand
-import com.discord.knockknock.commands.InactiveCommand
-import com.discord.knockknock.commands.JokeCommand
+import com.discord.knockknock.commands.*
 import com.discord.knockknock.commands.utils.Command
-import com.discord.knockknock.commands.TimeCommand
 import com.discord.knockknock.services.FactionRestService
 import com.discord.knockknock.eventlisteners.EventListener
 import discord4j.core.DiscordClientBuilder
@@ -51,7 +48,8 @@ class BeanConfig {
                 JokeCommand(),
                 TimeCommand(),
                 HelpCommand(),
-                InactiveCommand(masterApiKey, factionRestTemplate)
+                InactiveCommand(masterApiKey, factionRestTemplate),
+                TravelCommand(masterApiKey, factionRestTemplate)
         )
     }
 
