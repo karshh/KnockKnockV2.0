@@ -1,6 +1,8 @@
 package com.discord.knockknock.commands
 
 import com.discord.knockknock.commands.utils.Command
+import com.discord.knockknock.commands.utils.CreateSpecData
+import com.discord.knockknock.commands.utils.EmbedCreateSpecData
 import com.discord.knockknock.services.FactionApi
 import com.discord.knockknock.services.response.FactionMember
 import com.discord.knockknock.services.response.GetFactionDataResponse
@@ -24,11 +26,12 @@ class InactiveCommand(
         return valid
     }
 
-    override fun evaluate(arguments: List<String>): Flux<EmbedCreateSpec> =
+    override fun evaluate(arguments: List<String>): Flux<CreateSpecData> =
             Flux.just(arguments)
                 .map { if (it.size < 2) "" else it[1] }
                 .flatMap { FactionApi.get(masterApiKey, it, emptyList()) }
                 .map { createEmbedSpec(it) }
+                .map { EmbedCreateSpecData(it) }
 
     private fun createEmbedSpec(data: GetFactionDataResponse): EmbedCreateSpec {
         data.error?.let {

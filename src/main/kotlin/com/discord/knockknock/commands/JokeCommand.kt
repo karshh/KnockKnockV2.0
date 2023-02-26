@@ -1,8 +1,11 @@
 package com.discord.knockknock.commands
 
-import com.discord.knockknock.commands.utils.Command
+import com.discord.knockknock.commands.utils.*
 import com.discord.knockknock.commands.utils.Joke
-import discord4j.core.spec.EmbedCreateSpec
+import discord4j.core.`object`.component.LayoutComponent
+import discord4j.core.spec.MessageCreateSpec
+import discord4j.discordjson.json.ComponentData
+import discord4j.discordjson.json.EmojiData
 import reactor.core.publisher.Flux
 
 
@@ -42,21 +45,23 @@ class JokeCommand: Command {
             return arguments == listOf("joke")
         }
 
-        override fun evaluate(arguments: List<String>): Flux<EmbedCreateSpec> {
+        override fun evaluate(arguments: List<String>): Flux<CreateSpecData> {
             return Flux.just(
-                EmbedCreateSpec.create()
-                        .withColor(discord4j.rest.util.Color.GREEN)
-                        .withDescription(getRandomJoke())
-            )
+                MessageCreateSpec.builder()
+                        .content(getRandomJoke())
+                        .build()
+            ).map {
+                MessageCreateSpecData(it)
+            }
         }
 
     private fun getRandomJoke() = JOKES.random().let {
-        listOf(
-                "Knock Knock.",
-                "Who's there?",
-                it.name + ".",
-                it.name + " who?",
-                it.value
-        ).joinToString("\n")
+        """
+            `Knock Knock.`
+            `Who's there?`
+            `${it.name}.`
+            `${it.name} who?`
+            `${it.value}`
+        """.trimIndent()
     }
 }

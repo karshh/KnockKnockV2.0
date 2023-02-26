@@ -7,7 +7,7 @@ interface Command {
 
     fun validate(arguments: List<String>): Boolean
 
-    fun evaluate(arguments: List<String>): Flux<EmbedCreateSpec>
+    fun evaluate(arguments: List<String>): Flux<CreateSpecData>
 }
 
 

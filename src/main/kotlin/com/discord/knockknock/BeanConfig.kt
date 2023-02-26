@@ -7,6 +7,7 @@ import discord4j.common.ReactorResources
 import discord4j.core.DiscordClientBuilder
 import discord4j.core.GatewayDiscordClient
 import discord4j.core.event.domain.Event
+import discord4j.core.event.domain.lifecycle.DisconnectEvent
 import discord4j.rest.RestClient
 import discord4j.rest.RestClientBuilder
 import discord4j.rest.request.RouterOptions
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.http.client.reactive.ReactorResourceFactory
+import reactor.core.publisher.Mono
 import reactor.netty.http.client.HttpClient
 import reactor.netty.resources.ConnectionProvider
 import java.lang.Exception
@@ -52,6 +54,8 @@ class BeanConfig {
                     .onErrorResume(it::handleError)
                     .subscribe()
         }
+        client.on(DisconnectEvent::class.java)
+                .subscribe {println("Bot has disconnected, $it")}
 
         return client
     }
