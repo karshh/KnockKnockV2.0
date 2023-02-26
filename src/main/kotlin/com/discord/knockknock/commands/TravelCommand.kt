@@ -103,7 +103,7 @@ class TravelCommand(
         for (travelItem in travelList) {
             builder.addField(
                     travelItem.value[0].description,
-                    travelItem.value.joinToString("\n") { "[`${it.name}`](${getProfileUrl(it.id)})" },
+                    travelItem.value.joinToString(" ") { "[`${it.name}`](${getProfileUrl(it.id)})" },
                     false
             )
         }
