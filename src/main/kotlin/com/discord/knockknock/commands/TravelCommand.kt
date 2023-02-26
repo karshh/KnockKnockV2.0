@@ -1,15 +1,17 @@
 package com.discord.knockknock.commands
 
 import com.discord.knockknock.commands.utils.Command
-import com.discord.knockknock.services.FactionRestService
+import com.discord.knockknock.services.FactionApi
 import com.discord.knockknock.services.response.GetFactionDataResponse
+import discord4j.core.`object`.entity.Message
 import discord4j.core.spec.EmbedCreateSpec
+import discord4j.core.spec.MessageCreateSpec
 import discord4j.rest.util.Color
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 class TravelCommand(
-        private val masterApiKey: String,
-        private val factionRestTemplate: FactionRestService
+        private val masterApiKey: String
 ): Command {
 
     override fun validate(arguments: List<String>): Boolean {
@@ -20,10 +22,10 @@ class TravelCommand(
         return valid
     }
 
-    override fun evaluate(arguments: List<String>): Mono<EmbedCreateSpec> =
-            Mono.just(arguments)
+    override fun evaluate(arguments: List<String>): Flux<EmbedCreateSpec> =
+            Flux.just(arguments)
                     .map { if (it.size < 2) "" else it[1] }
-                    .flatMap { factionRestTemplate.getFactionData(masterApiKey, it, emptyList()) }
+                    .flatMap { FactionApi.get(masterApiKey, it, emptyList()) }
                     .map { createEmbedSpec(it) }
 
     private fun createEmbedSpec(data: GetFactionDataResponse): EmbedCreateSpec {
@@ -42,14 +44,22 @@ class TravelCommand(
                     .build()
         }
 
+        for (member in data.members) {
+            if (member.value.status.description.startsWith("Returning to Torn")) {
+                member.value.status.description = "Returning to Torn"
+            }
+        }
+
         val travelList = data.members.entries
                 .filter { it.value.status.state == "Abroad" || it.value.status.state == "Traveling" }
                 .groupBy { it.value.status.description }
+                .toSortedMap()
 
         if (travelList.isEmpty()) {
             return EmbedCreateSpec.builder()
                     .color(Color.GREEN)
-                    .title("Error")
+                    .title("${data.name}")
+                    .url("https://www.torn.com/factions.php?step=profile&ID=${data.id}")
                     .description("Nobody is travelling at the moment.")
                     .build()
 
@@ -63,7 +73,7 @@ class TravelCommand(
         for (travelItem in travelList) {
             builder.addField(
                     travelItem.value[0].value.status.description,
-                    travelItem.value.joinToString("\n") { "[`${it.value.name} [${it.key}]`](${getProfileUrl(it.key)})" },
+                    travelItem.value.joinToString("\n") { "[`${it.value.name}`](${getProfileUrl(it.key)})" },
                     false
             )
         }

@@ -29,7 +29,7 @@ data class LastAction(
 )
 
 data class Status(
-        val description: String,
+        var description: String,
         val details: String,
         val state: String,
         val color: String,

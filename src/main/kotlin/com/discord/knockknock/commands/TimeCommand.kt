@@ -3,6 +3,7 @@ package com.discord.knockknock.commands
 import com.discord.knockknock.commands.utils.Command
 import discord4j.core.spec.EmbedCreateSpec
 import discord4j.rest.util.Color
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -13,8 +14,8 @@ class TimeCommand: Command {
         return arguments == listOf("time")
     }
 
-    override fun evaluate(arguments: List<String>): Mono<EmbedCreateSpec> =
-            Mono.just(EmbedCreateSpec.builder()
+    override fun evaluate(arguments: List<String>): Flux<EmbedCreateSpec> =
+            Flux.just(EmbedCreateSpec.builder()
                 .color(Color.GREEN)
                 .description(getTornTime())
                 .build()

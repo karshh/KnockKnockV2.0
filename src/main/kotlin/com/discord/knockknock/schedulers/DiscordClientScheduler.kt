@@ -1,6 +1,5 @@
 package com.discord.knockknock.schedulers
 
-import com.discord.knockknock.services.FactionRestService
 import discord4j.core.GatewayDiscordClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
@@ -12,9 +11,6 @@ class DiscordClientScheduler {
 
     @Autowired
     lateinit var discordClient: GatewayDiscordClient
-
-    @Autowired
-    lateinit var factionRestTemplate: FactionRestService
 
     @Scheduled(cron = "*/10 * * * * *")
     fun pingEvery10Seconds() {

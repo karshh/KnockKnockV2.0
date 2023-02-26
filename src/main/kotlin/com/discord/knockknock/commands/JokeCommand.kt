@@ -3,7 +3,7 @@ package com.discord.knockknock.commands
 import com.discord.knockknock.commands.utils.Command
 import com.discord.knockknock.commands.utils.Joke
 import discord4j.core.spec.EmbedCreateSpec
-import reactor.core.publisher.Mono
+import reactor.core.publisher.Flux
 
 
 class JokeCommand: Command {
@@ -42,8 +42,8 @@ class JokeCommand: Command {
             return arguments == listOf("joke")
         }
 
-        override fun evaluate(arguments: List<String>): Mono<EmbedCreateSpec> {
-            return Mono.just(
+        override fun evaluate(arguments: List<String>): Flux<EmbedCreateSpec> {
+            return Flux.just(
                 EmbedCreateSpec.create()
                         .withColor(discord4j.rest.util.Color.GREEN)
                         .withDescription(getRandomJoke())

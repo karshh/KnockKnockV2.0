@@ -1,21 +1,14 @@
 package com.discord.knockknock.services
 
-import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
-import java.lang.Exception
 
-@Component
-class ShibaRestService {
+object ShibaApi {
 
-    fun getShibaUrl(): Mono<String> {
-        val client = WebClient.create("https://shibe.online/api/shibes?count=1")
-
-        return client
+    fun get(): Mono<String> = WebClient.create("https://shibe.online/api/shibes?count=1")
                 .get()
                 .retrieve()
                 .bodyToMono(Array<String>::class.java)
                 .filter { !it.isNullOrEmpty() }
                 .map { it.first() }
-    }
 }
