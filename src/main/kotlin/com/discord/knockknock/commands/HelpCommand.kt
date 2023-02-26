@@ -15,9 +15,10 @@ class HelpCommand: Command {
             "`?knock joke`" to "Responds a knock-knock joke.",
             "`?knock time`" to "Responds time in TCT.",
             "`?knock inactive <optional-faction-id>`" to "Lists all users that are fedded or inactive for 1 day or more.",
-            "`?knock travel <optional-faction-id>`" to "List all users that are travelling",
-            "`?knock online <minutes> <optional-faction-id>`" to "List all users that were online `<minutes>` minutes ago",
-            "`?shiba`" to "Responds with a picture of a shiba inu"
+            "`?knock travel <optional-faction-id>`" to "List all users that are travelling.",
+            "`?knock okay <optional-faction-id>`" to "List all users that are Okay and in torn.",
+            "`?knock online <minutes> <optional-faction-id>`" to "List all users that were online `<minutes>` minutes ago.",
+            "`?shiba`" to "Responds with a picture of a shiba inu."
     )
     override fun validate(arguments: List<String>): Boolean = arguments == listOf("help")
 

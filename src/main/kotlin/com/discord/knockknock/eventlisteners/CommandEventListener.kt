@@ -41,9 +41,7 @@ class CommandEventListener @Autowired constructor(private val commandList: List<
             }
             .onErrorResume { exception ->
                 handleError(exception)
-                event.message.channel.flatMap {
-                    it.createMessage("I have crashed. Check my logs to see if I am recoverable.")
-                }
+                Flux.empty()
             }
             .then()
 

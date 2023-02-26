@@ -70,20 +70,10 @@ class OnlineCommand(
         val onlineMembersStringList = onlineMembersSet.map {
             "[`${it.value.name}`](${getProfileUrl(it.key)}) ${it.value.lastAction.relative}"
         }
+
         if (onlineMembersStringList.toString().length > 3850) {
             return MessageCreateSpecData(MessageCreateSpec.builder()
-                    .addEmbed(EmbedCreateSpec.builder()
-                            .color(Color.RED)
-                            .title("${data.name}")
-                            .url("https://www.torn.com/factions.php?step=profile&ID=${data.id}")
-                            .description(
-                                    """
-                                        Too many members (${onlineMembersStringList.size}) have been active in the last $minutes minutes to display here.
-                                        I've instead attached a file containing a list of them.
-                                        
-                                    """.trimIndent()
-                            )
-                            .build())
+                    .content("`Too many members of ${data.name} were Online [size=${onlineMembersStringList.size}] in the last ${minutes} minutes. I've attached a file containing a list of them.`")
                     .addFile(MessageCreateFields.File.of("${data.name}_online.html", generateHtmlFile(onlineMembersSet)))
                     .build())
 

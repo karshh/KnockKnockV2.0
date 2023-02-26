@@ -79,17 +79,7 @@ class TravelCommand(
         if (travelList.keys.size > 15 ||
                 travelList.any { it.value.toString().length > 1024 - (it.value.size * 45) }) {
             return MessageCreateSpecData(MessageCreateSpec.builder()
-                    .addEmbed(EmbedCreateSpec.builder()
-                            .color(Color.RED)
-                            .title("${data.name}")
-                            .url("https://www.torn.com/factions.php?step=profile&ID=${data.id}")
-                            .description(
-                                    """
-                                        Too many members are travelling to display here.
-                                        I've instead attached a file containing a list of them.
-                                    """.trimIndent()
-                            )
-                            .build())
+                    .content("`Too many members of ${data.name} are currently travelling. I've attached a file containing a list of them.`")
                     .addFile(MessageCreateFields.File.of("${data.name}_travel.html", generateHtmlFile(travelList.values)))
                     .build())
 

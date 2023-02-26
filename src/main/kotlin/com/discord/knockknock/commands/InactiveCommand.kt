@@ -77,7 +77,7 @@ class InactiveCommand(
         if (fallenList.isNotEmpty()) {
             builder.addField(
                     "In Heaven (RIP)",
-                    fallenList.joinToString("\n"),
+                    fallenList.joinToString(" "),
                     false
             )
         }
@@ -85,7 +85,7 @@ class InactiveCommand(
         if (federalList.isNotEmpty()) {
             builder.addField(
                     "In Federal Jail",
-                    federalList.joinToString("\n"),
+                    federalList.joinToString(" "),
                     false )
         }
 

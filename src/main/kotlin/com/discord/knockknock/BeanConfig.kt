@@ -69,6 +69,7 @@ class BeanConfig {
                 InactiveCommand(masterApiKey),
                 TravelCommand(masterApiKey),
                 OnlineCommand(masterApiKey),
+                AvailableCommand(masterApiKey),
                 CrashTheBotCommand()
         )
     }
